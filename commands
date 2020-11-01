@@ -1,0 +1,42 @@
+aaa new-model
+radius server ISE
+ address ipv4 192.168.100.150 auth-port 1812 acct-port 1813
+ key cisco
+ exit
+aaa group server radius ISE
+ server name ISE
+ exit
+
+aaa authentication dot1x default group ISE
+aaa authorization network default group ISE
+aaa accounting dot1x default start-stop group ISE
+
+
+aaa server radius dynamic-author
+ client 192.168.100.150 server-key cisco
+ exit
+
+dot1x system-auth-control
+
+ip access-list extended PRE-AUTH
+ remark DHCP
+ permit udp any eq bootpc any eq bootps
+ remark DNS
+ permit udp any any eq domain
+ remark PING
+ permit icmp any any echo
+ remark TFTP
+ permit udp any any eq tftp
+ remark DROP AND LOG THE REST
+ deny ip any any
+ exit
+
+nterface Ethernet0/0
+ description Client-1
+ switchport mode access
+ authentication open
+ authentication port-control auto
+ authentication periodic
+ dot1x pae authenticator
+ spanning-tree portfast
+ ip access-group PRE-AUTH in

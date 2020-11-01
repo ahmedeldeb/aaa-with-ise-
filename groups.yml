@@ -1,0 +1,11 @@
+## Nornir Groups File 
+---
+Switches:
+
+  data: 
+    ntp: 
+      servers: 
+        - 192.168.100.151
+
+
+
