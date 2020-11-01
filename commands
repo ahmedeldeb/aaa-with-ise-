@@ -19,15 +19,10 @@ aaa server radius dynamic-author
 dot1x system-auth-control
 
 ip access-list extended PRE-AUTH
- remark DHCP
  permit udp any eq bootpc any eq bootps
- remark DNS
  permit udp any any eq domain
- remark PING
  permit icmp any any echo
- remark TFTP
  permit udp any any eq tftp
- remark DROP AND LOG THE REST
  deny ip any any
  exit
 
